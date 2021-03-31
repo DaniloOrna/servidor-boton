@@ -2,14 +2,20 @@
 
 function LED1_On() {
 	alert("led on");
+	message = new Paho.MQTT.Message("encender");
+   	message.destinationName = "danilo-orna@hotmail.es/led";
+    	client.send(message);
 	console.log("led on");
-	document.getElementById("sensor").innerHTML="led on";
+	//document.getElementById("sensor").innerHTML="led on";
   
 }
 function LED1_Off(){	
 	alert("led off");
+	message = new Paho.MQTT.Message("apagar");
+   	message.destinationName = "danilo-orna@hotmail.es/led";
+    	client.send(message);
 	console.log("led off");
-	document.getElementById("sensor").innerHTML="led off";
+	//document.getElementById("sensor").innerHTML="led off";
 }
 
 
@@ -27,8 +33,8 @@ function LED1_Off(){
   client.onMessageArrived = onMessageArrived;
   var options = {
    useSSL: false,
-    userName: "lfrenteriax@hotmail.com",
-    password: "lfrenteriax",
+    userName: "danilo-orna@hotmail.es",
+    password: "carguacundo16",
     onSuccess:onConnect,
     onFailure:doFail
   }
@@ -41,9 +47,9 @@ function LED1_Off(){
     // Once a connection has been made, make a subscription and send a message.
     console.log("Conectado...");
 	
-    client.subscribe("lfrenteriax@hotmail.com/test");
+    client.subscribe("danilo-orna@hotmail.es/led");
     message = new Paho.MQTT.Message("hola desde la web");
-    message.destinationName = "lfrenteriax@hotmail.com/test1";
+    message.destinationName = "danilo-orna@hotmail.es/led";
     client.send(message);
 	
   }
@@ -63,5 +69,5 @@ function LED1_Off(){
   // called when a message arrives
   function onMessageArrived(message) {
     console.log("onMessageArrived:"+message.payloadString);
+	  document.getElementById("sensor").innerHTML=message.payloadString;   //El valor de la etiqueta sera el mensaje que recibe
   }
-  
